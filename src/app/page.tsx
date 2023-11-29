@@ -1,12 +1,12 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable @next/next/no-img-element */
 import { getAccesToken } from '@/components/accessToken'
-import { UserProfile, ArtistsI } from './interface'
+import { ArtistsI } from './interface'
 import { publicClient, publicUrl } from '@/components/const'
 
 import Artists from '@/components/artists'
 import Genres from '@/components/genres'
-import RenderProfile from '@/components/renderProfile'
+
 import { ModeToggle } from '@/components/toggle'
 import Tracks from '@/components/tracks'
 import { TracksI } from './interfaceTracks'
@@ -34,12 +34,10 @@ export default async function Home({
   }
 
   const {
-    profile,
     topTracks,
     topArtists,
     recentlyTracks
   }: {
-    profile: UserProfile
     topTracks: TracksI
     topArtists: ArtistsI
     recentlyTracks: RecentlyTracksI
@@ -79,7 +77,7 @@ export default async function Home({
           <Artists topArtists={topArtists} />
         </div>
         <div className='bg-[#121212]'>
-          <RenderProfile profile={profile} />
+          {/* <RenderProfile profile={profile} /> */}
           <ModeToggle />
         </div>
 
