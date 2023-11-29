@@ -6,6 +6,8 @@ interface profileProps {
 }
 
 export default function RenderProfile({ profile }: profileProps) {
+  const imageUrl = profile.images.flatMap((item) => item.url)
+  console.log(imageUrl)
   return (
     <div className='flex justify-between items-center p-2 font-bold'>
       <h1 className='text-2xl'>Good Morning {profile.display_name}</h1>

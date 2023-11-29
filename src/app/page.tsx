@@ -11,6 +11,8 @@ import { ModeToggle } from '@/components/toggle'
 import Tracks from '@/components/tracks'
 import { TracksI } from './interfaceTracks'
 import RenderProfile from '@/components/renderProfile'
+import { RecentlyTracksI } from './interfaceRecently'
+import RecentlyTracks from '@/components/recentlyTracks'
 
 export default async function Home({
   searchParams
@@ -34,12 +36,14 @@ export default async function Home({
 
   const {
     profile,
+    recentlyTracks,
     topTracks,
     topArtists
   }: {
     profile: UserProfile
     topTracks: TracksI
     topArtists: ArtistsI
+    recentlyTracks: RecentlyTracksI
   } = result
 
   return (
@@ -50,7 +54,7 @@ export default async function Home({
             <h2 className='font-bold text-xl'>Recent streams</h2>
             <p className='font-medium text-[#a3a3a3]'>Recently played tracks</p>
           </div>
-          {/* <RecentlyTracks recentlyTracks={recentlyTracks} /> */}
+          <RecentlyTracks recentlyTracks={recentlyTracks} />
         </div>
         <div
           className='col-span-3 row-span-4 font-light flex flex-col gap-2'
