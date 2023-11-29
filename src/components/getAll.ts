@@ -12,8 +12,9 @@ export async function getUserProfile(accessToken: string) {
     })
 
     if (!profileResult.ok) {
+      const errorData = await profileResult.json()
       throw new Error(
-        `Error al obtener el perfil. Código de estado: ${profileResult.status}`
+        `Error al obtener el perfil. Detalles: ${JSON.stringify(errorData)}`
       )
     }
 
