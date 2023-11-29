@@ -7,7 +7,7 @@ interface ArtistsProps {
 
 export default function Artists({ topArtists }: ArtistsProps) {
   return (
-    <div className='px-2 pb-2 grid grid-cols-1 grid-rows-2 lg:grid-cols-6 gap-4 group [&>*]:bg-[#181818] [&>*]:min-h-[16rem] [&>*]:rounded-lg'>
+    <div className='px-2 pb-2 grid grid-cols-2 lg:grid-cols-6 lg:grid-rows-2 gap-4 group [&>*]:bg-[#181818] [&>*]:rounded-lg'>
       {topArtists.items.slice(0, 12).map((item) => (
         <div className='font-medium p-4 flex flex-col gap-1' key={item.id}>
           <img

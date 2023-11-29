@@ -7,7 +7,6 @@ import { publicClient, publicUrl, scopes } from '@/components/const'
 import Artists from '@/components/artists'
 import Genres from '@/components/genres'
 
-import { ModeToggle } from '@/components/toggle'
 import Tracks from '@/components/tracks'
 import { TracksI } from './interfaceTracks'
 import RenderProfile from '@/components/renderProfile'
@@ -48,16 +47,17 @@ export default async function Home({
 
   return (
     <main>
-      <div className='p-4 grid grid-cols-1 grid-rows-2 lg:grid-cols-5 lg:grid-rows-5 gap-3 group [&>*]:min-h-[5rem] [&>*]:rounded-lg [&>*]:shadow-lg [&>*]:transition [&>*]:duration-300'>
-        <div className='row-span-4 bg-[#121212] font-medium flex flex-col gap-4 px-2'>
+      <div className='p-2 grid grid-cols-1 grid-rows-1 md:grid-cols-2 md:grid-rows-1 lg:grid-cols-8 lg:grid-rows-1 gap-2 group [&>*]:min-h-[6rem] [&>*]:rounded-lg [&>*]:shadow-lg [&>*]:transition [&>*]:duration-300'>
+        <div className='lg:col-span-2 bg-[#121212] font-medium flex flex-col gap-4 px-2'>
           <div className='rounded-t-lg py-2'>
             <h2 className='font-bold text-xl'>Recent streams</h2>
             <p className='font-medium text-[#a3a3a3]'>Recently played tracks</p>
           </div>
           <RecentlyTracks recentlyTracks={recentlyTracks} />
         </div>
+
         <div
-          className='col-span-3 row-span-4 font-light flex flex-col gap-2'
+          className='lg:col-span-4 font-light flex flex-col gap-2'
           style={{
             backgroundImage:
               'linear-gradient(to right, #1e1e1e, #1b1b1b, #181818, #151515, #121212)'
@@ -79,17 +79,14 @@ export default async function Home({
           </div>
           <Artists topArtists={topArtists} />
         </div>
-        <div className='bg-[#121212]'>
-          <RenderProfile profile={profile} />
-          <ModeToggle />
-        </div>
 
-        <div className='row-span-3 bg-[#121212] p-2 flex flex-col gap-4'>
+        <div className='lg:col-span-2 bg-[#121212] p-2 flex flex-col gap-4'>
           <h2 className='font-bold text-xl'> Top genres</h2>
           <Genres topArtists={topArtists} />
         </div>
-
-        <div className='col-span-5 bg-[#121212]'>d</div>
+        <div className='lg:col-span-8 grid bg-[#121212]'>
+          <RenderProfile profile={profile} />
+        </div>
       </div>
     </main>
   )

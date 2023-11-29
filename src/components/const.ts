@@ -17,4 +17,4 @@ export const topArtistsUrl =
 export const topTracksUrl =
   'https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=8'
 export const recentlyUrl =
-  'https://api.spotify.com/v1/me/player/recently-played?limit=8'
+  'https://api.spotify.com/v1/me/player/recently-played?limit=9'

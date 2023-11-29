@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
-import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -41,15 +40,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={myFont.className}>
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='system'
-          enableSystem
-          disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
-      </body>
+      <body className={myFont.className}>{children}</body>
     </html>
   )
 }

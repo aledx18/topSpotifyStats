@@ -1,7 +1,6 @@
 import { topTracksUrl, topArtistsUrl, recentlyUrl } from './const'
 
 export async function getUserProfile(accessToken: string) {
-  console.log(accessToken)
   try {
     const profileResult = await fetch('https://api.spotify.com/v1/me', {
       method: 'GET',

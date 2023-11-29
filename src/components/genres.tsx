@@ -29,9 +29,7 @@ export default function Genres({ topArtists }: ArtistsProps) {
   return (
     <div className='grid grid-cols-2 gap-2'>
       {uniqueSortedGenres.map((res, i) => (
-        <Badge variant='secondary' key={i}>
-          {res}
-        </Badge>
+        <Badge key={i}>{res}</Badge>
       ))}
     </div>
   )

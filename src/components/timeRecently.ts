@@ -28,8 +28,8 @@ export function tiempoTranscurrido(fecha: string) {
   }
 }
 
-export function fechaFormateada(fecha: string) {
-  const fechaObjeto = new Date(fecha)
+export function fechaFormateada() {
+  const fechaActual = new Date()
 
   // Array de nombres de meses en español
   const meses = [
@@ -47,17 +47,13 @@ export function fechaFormateada(fecha: string) {
     'December'
   ]
 
-  // Obtener el nombre del mes
-  const nombreMes = meses[fechaObjeto.getMonth()]
+  // Obtener el día, mes y año
+  const dia = fechaActual.getDate()
+  const mes = fechaActual.getMonth() // Los meses en JavaScript comienzan desde 0
+  const año = fechaActual.getFullYear()
 
-  // Obtener el día del mes
-  const diaMes = fechaObjeto.getDate()
-
-  // Obtener el año
-  const año = fechaObjeto.getFullYear()
-
-  // Formatear la fecha final
-  const fechaFormateada = nombreMes + ' ' + diaMes + ' ' + año
+  // Formatear la fecha
+  const fechaFormateada = dia + ' ' + meses[mes] + ' ' + año
 
   return fechaFormateada
 }
