@@ -69,6 +69,6 @@ export async function getUserProfile(accessToken: string) {
       recentlyTracks: recentlyTrackData
     }
   } catch (error) {
-    console.error('Error al obtener la información xd')
+    console.error('Error al obtener la información', error)
   }
 }
