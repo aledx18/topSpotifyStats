@@ -12,9 +12,16 @@ export async function getUserProfile(accessToken: string) {
     })
 
     if (!profileResult.ok) {
-      const errorData = await profileResult.json()
+      const errorText = await profileResult.text()
+      console.error(`Error al obtener el perfil. Detalles: ${errorText}`)
+      throw new Error(`Error al obtener el perfil. Detalles: ${errorText}`)
+    }
+
+    // Verificar que la respuesta sea de tipo 'application/json'
+    const contentType = profileResult.headers.get('content-type')
+    if (!contentType || !contentType.includes('application/json')) {
       throw new Error(
-        `Error al obtener el perfil. Detalles: ${JSON.stringify(errorData)}`
+        `La respuesta no es de tipo JSON. Tipo de contenido: ${contentType}`
       )
     }
 
