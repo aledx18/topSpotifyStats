@@ -11,7 +11,7 @@ export const publicUrl =
 export const clientSecret = process.env.NEXT_CLIENT_SECRET || ''
 // export const scopes = 'user-top-read user-read-private user-read-email'
 export const scopes =
-  'user-top-read user-read-recently-played user-read-private user-read-email user-read-playback-state user-modify-playback-state'
+  'user-top-read%20user-read-recently-played%20user-read-private%20user-read-email%20user-read-playback-state%20user-modify-playback-state'
 
 export const topArtistsUrl =
   'https://api.spotify.com/v1/me/top/artists?limit=15'
