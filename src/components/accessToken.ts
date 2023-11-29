@@ -8,6 +8,10 @@ export async function getAccesToken(code: string) {
   data.append('redirect_uri', publicUrl)
   data.append('client_id', publicClient)
   data.append('client_secret', clientSecret)
+  data.append(
+    'scope',
+    'user-read-private user-read-email user-top-read user-read-recently-played'
+  )
 
   try {
     const response = await fetch('https://accounts.spotify.com/api/token', {
