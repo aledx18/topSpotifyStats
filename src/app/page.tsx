@@ -26,7 +26,7 @@ export default async function Home({
       <div className='h-screen flex items-center justify-center bg-[#121212]'>
         <a
           className='bg-[#1ed760] rounded-3xl text-black px-8 py-2'
-          href={`https://accounts.spotify.com/authorize?client_id=${publicClient}&response_type=code&redirect_uri=${publicUrl}&scope=user-top-read%20user-read-recently-played%20user-read-private%20user-read-email`}>
+          href={`https://accounts.spotify.com/authorize?client_id=${publicClient}&response_type=code&redirect_uri=${publicUrl}&scope=user-top-read%20user-read-recently-played`}>
           Iniciar Session
         </a>
       </div>

@@ -33,9 +33,9 @@ export async function getUserProfile(accessToken: string) {
     })
 
     if (!topTracksResult.ok) {
-      throw new Error(
-        `Error al obtener las principales canciones. Código de estado: ${topTracksResult.status}`
-      )
+      const errorText = await topTracksResult.text()
+      console.error(`Error al obtener el perfil. Detalles: ${errorText}`)
+      throw new Error(`Error al obtener el perfil. Detalles: ${errorText}`)
     }
 
     const topTracksData = await topTracksResult.json()
