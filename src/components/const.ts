@@ -9,7 +9,6 @@ export const publicUrl =
     throw new Error('NEXT_PUBLIC_URl no está definido')
   })()
 export const clientSecret = process.env.NEXT_CLIENT_SECRET || ''
-// export const scopes = 'user-top-read user-read-private user-read-email'
 export const scopes =
   'user-top-read%20user-read-recently-played%20user-read-private%20user-read-email'
 

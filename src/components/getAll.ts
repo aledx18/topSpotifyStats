@@ -3,28 +3,28 @@ import { topTracksUrl, topArtistsUrl, recentlyUrl } from './const'
 export async function getUserProfile(accessToken: string) {
   console.log(accessToken)
   try {
-    // const profileResult = await fetch('https://api.spotify.com/v1/me', {
-    //   method: 'GET',
-    //   headers: {
-    //     Authorization: `Bearer ${accessToken}`
-    //   }
-    // })
+    const profileResult = await fetch('https://api.spotify.com/v1/me', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
 
-    // if (!profileResult.ok) {
-    //   const errorText = await profileResult.text()
-    //   console.error(`Error al obtener el perfil. Detalles: ${errorText}`)
-    //   throw new Error(`Error al obtener el perfil. Detalles: ${errorText}`)
-    // }
+    if (!profileResult.ok) {
+      const errorText = await profileResult.text()
+      console.error(`Error al obtener el perfil. Detalles: ${errorText}`)
+      throw new Error(`Error al obtener el perfil. Detalles: ${errorText}`)
+    }
 
-    // // Verificar que la respuesta sea de tipo 'application/json'
-    // const contentType = profileResult.headers.get('content-type')
-    // if (!contentType || !contentType.includes('application/json')) {
-    //   throw new Error(
-    //     `La respuesta no es de tipo JSON. Tipo de contenido: ${contentType}`
-    //   )
-    // }
+    // Verificar que la respuesta sea de tipo 'application/json'
+    const contentType = profileResult.headers.get('content-type')
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new Error(
+        `La respuesta no es de tipo JSON. Tipo de contenido: ${contentType}`
+      )
+    }
 
-    // const profileData = await profileResult.json()
+    const profileData = await profileResult.json()
 
     const topTracksResult = await fetch(topTracksUrl, {
       method: 'GET',
@@ -72,7 +72,7 @@ export async function getUserProfile(accessToken: string) {
     const recentlyTrackData = await recentlyTracksResult.json()
 
     return {
-      //   profile: profileData,
+      profile: profileData,
       topTracks: topTracksData,
       topArtists: topArtistData,
       recentlyTracks: recentlyTrackData

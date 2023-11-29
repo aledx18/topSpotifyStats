@@ -1,8 +1,8 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable @next/next/no-img-element */
 import { getAccesToken } from '@/components/accessToken'
-import { ArtistsI } from './interface'
-import { publicClient, publicUrl } from '@/components/const'
+import { ArtistsI, UserProfile } from './interface'
+import { publicClient, publicUrl, scopes } from '@/components/const'
 
 import Artists from '@/components/artists'
 import Genres from '@/components/genres'
@@ -10,6 +10,7 @@ import Genres from '@/components/genres'
 import { ModeToggle } from '@/components/toggle'
 import Tracks from '@/components/tracks'
 import { TracksI } from './interfaceTracks'
+import RenderProfile from '@/components/renderProfile'
 
 export default async function Home({
   searchParams
@@ -24,7 +25,7 @@ export default async function Home({
       <div className='h-screen flex items-center justify-center bg-[#121212]'>
         <a
           className='bg-[#1ed760] rounded-3xl text-black px-8 py-2'
-          href={`https://accounts.spotify.com/authorize?client_id=${publicClient}&response_type=code&redirect_uri=${publicUrl}&scope=user-top-read%20user-read-recently-played`}>
+          href={`https://accounts.spotify.com/authorize?client_id=${publicClient}&response_type=code&redirect_uri=${publicUrl}&scope=${scopes}`}>
           Iniciar Session
         </a>
       </div>
@@ -32,9 +33,11 @@ export default async function Home({
   }
 
   const {
+    profile,
     topTracks,
     topArtists
   }: {
+    profile: UserProfile
     topTracks: TracksI
     topArtists: ArtistsI
   } = result
@@ -73,7 +76,7 @@ export default async function Home({
           <Artists topArtists={topArtists} />
         </div>
         <div className='bg-[#121212]'>
-          {/* <RenderProfile profile={profile} /> */}
+          <RenderProfile profile={profile} />
           <ModeToggle />
         </div>
 
