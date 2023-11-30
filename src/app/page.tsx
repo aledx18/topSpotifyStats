@@ -2,7 +2,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { getAccesToken } from '@/components/accessToken'
 import { ArtistsI, UserProfile } from './interface'
-import { publicClient, publicUrl, scopes } from '@/components/const'
 
 import Artists from '@/components/artists'
 import Genres from '@/components/genres'
@@ -12,6 +11,7 @@ import { TracksI } from './interfaceTracks'
 import RenderProfile from '@/components/renderProfile'
 import { RecentlyTracksI } from './interfaceRecently'
 import RecentlyTracks from '@/components/recentlyTracks'
+import Welcome from '@/components/welcome'
 
 export default async function Home({
   searchParams
@@ -22,15 +22,7 @@ export default async function Home({
 
   const result = await getAccesToken(code)
   if (!result) {
-    return (
-      <div className='h-screen flex items-center justify-center bg-[#121212]'>
-        <a
-          className='bg-[#1ed760] rounded-3xl text-black px-8 py-2'
-          href={`https://accounts.spotify.com/authorize?client_id=${publicClient}&response_type=code&redirect_uri=${publicUrl}&scope=${scopes}`}>
-          Iniciar Session
-        </a>
-      </div>
-    )
+    return <Welcome />
   }
 
   const {
