@@ -1,87 +1,31 @@
-/* eslint-disable multiline-ternary */
+import Navbar from '@/components/Header/Navbar'
 /* eslint-disable @next/next/no-img-element */
-import { getAccesToken } from '@/components/accessToken'
-import { ArtistsI, UserProfile } from './interface'
 
-import Artists from '@/components/artists'
-import Genres from '@/components/genres'
-
-import Tracks from '@/components/tracks'
-import { TracksI } from './interfaceTracks'
-import RenderProfile from '@/components/renderProfile'
-import { RecentlyTracksI } from './interfaceRecently'
-import RecentlyTracks from '@/components/recentlyTracks'
-import Welcome from '@/components/welcome'
-
-export default async function Home({
-  searchParams
-}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) {
-  const code = typeof searchParams.code === 'string' ? searchParams.code : ''
-
-  const result = await getAccesToken(code)
-  if (!result) {
-    return <Welcome />
-  }
-
-  const {
-    profile,
-    recentlyTracks,
-    topTracks,
-    topArtists
-  }: {
-    profile: UserProfile
-    topTracks: TracksI
-    topArtists: ArtistsI
-    recentlyTracks: RecentlyTracksI
-  } = result
-
+export default function Welcome() {
   return (
-    <main>
-      <div className='p-2 grid grid-cols-1 grid-rows-1 md:grid-cols-2 md:grid-rows-1 lg:grid-cols-8 lg:grid-rows-1 gap-2 group [&>*]:min-h-[6rem] [&>*]:rounded-lg [&>*]:shadow-lg [&>*]:transition [&>*]:duration-300'>
-        <div className='lg:col-span-2 bg-[#121212] font-medium flex flex-col gap-4 px-2'>
-          <div className='rounded-t-lg py-2'>
-            <h2 className='font-bold text-xl'>Recent streams</h2>
-            <p className='font-medium text-[#a3a3a3]'>Recently played tracks</p>
-          </div>
-          <RecentlyTracks recentlyTracks={recentlyTracks} />
-        </div>
-
-        <div
-          className='lg:col-span-4 font-light flex flex-col gap-2'
-          style={{
-            backgroundImage:
-              'linear-gradient(to right, #1e1e1e, #1b1b1b, #181818, #151515, #121212)'
-          }}>
-          <div className='rounded-t-lg px-2 py-1 bg-[#242424]'>
-            <h2 className='font-bold text-xl'>Top Tracks</h2>
-            <p className='font-medium text-[#a3a3a3]'>
-              Top tracks from the past 6 months
+    <div className='h-screen p-2 bg-[#121212]'>
+      <Navbar />
+      <section className='py-1 lg:mt-16 md:pt-40'>
+        <div className='container mx-auto flex px-5 md:flex-row flex-col items-center'>
+          <div className='lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center'>
+            <h1 className=' lg:text-8xl md:text-6xl text-3xl mb-4 font-bold'>
+              Elevate Your Playlist, Amplify Your{' '}
+              <span className='text-[#ea580c]'>Stats.</span>
+            </h1>
+            <p className='mb-4 leading-relaxed text-xl text-[#a3a3a3]'>
+              Connect your Spotify account and get instant insights into your
+              top-played songs, favorite artists, and preferred genres.
             </p>
           </div>
-
-          <Tracks topTracks={topTracks} />
-
-          <div className='rounded-t-lg px-2 py-1'>
-            <h2 className='font-bold text-xl'>Top Artists</h2>
-            <p className='font-medium text-[#a3a3a3]'>
-              top artists from the past 6 months
-            </p>
+          <div className='lg:max-w-lg lg:w-full md:w-1/2 w-5/6'>
+            <img
+              className='object-cover object-center rounded'
+              alt='hero'
+              src=''
+            />
           </div>
-          <Artists topArtists={topArtists} />
         </div>
-
-        <div className='lg:col-span-2 bg-[#121212] p-2 flex flex-col gap-4'>
-          <h2 className='font-bold text-xl'> Top genres</h2>
-          <Genres topArtists={topArtists} />
-        </div>
-        <div className='lg:col-span-8 grid bg-[#121212]'>
-          <RenderProfile profile={profile} />
-        </div>
-      </div>
-    </main>
+      </section>
+    </div>
   )
 }
-// #242424
-// #181818

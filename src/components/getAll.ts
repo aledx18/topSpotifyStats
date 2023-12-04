@@ -1,6 +1,21 @@
+import { RecentlyTracksI } from '@/app/interfaceRecently'
 import { topTracksUrl, topArtistsUrl, recentlyUrl } from './const'
+import { ArtistsI, UserProfile } from '@/app/interface'
+import { TracksI } from '@/app/interfaceTracks'
 
-export async function getUserProfile(accessToken: string) {
+interface UserProfileResult {
+  error?: string
+  data?: {
+    profile: UserProfile
+    topTracks: TracksI
+    topArtists: ArtistsI
+    recentlyTracks: RecentlyTracksI
+  }
+}
+
+export async function getUserProfile(
+  accessToken: string
+): Promise<UserProfileResult> {
   try {
     const profileResult = await fetch('https://api.spotify.com/v1/me', {
       method: 'GET',
@@ -70,13 +85,18 @@ export async function getUserProfile(accessToken: string) {
 
     const recentlyTrackData = await recentlyTracksResult.json()
 
+    // await new Promise((resolve) => setTimeout(resolve, 90000))
+
     return {
-      profile: profileData,
-      topTracks: topTracksData,
-      topArtists: topArtistData,
-      recentlyTracks: recentlyTrackData
+      data: {
+        profile: profileData,
+        topTracks: topTracksData,
+        topArtists: topArtistData,
+        recentlyTracks: recentlyTrackData
+      }
     }
-  } catch (error) {
-    console.error('Error al obtener la información', error)
+  } catch (error: any) {
+    console.log(error)
+    return { error: error.message }
   }
 }
