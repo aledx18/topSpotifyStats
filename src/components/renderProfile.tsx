@@ -13,7 +13,10 @@ export default function RenderProfile({ profile }: profileProps) {
 
   return (
     <div className='flex justify-between items-center p-2 font-bold'>
-      <h1 className='text-2xl'>Good Morning</h1>
+      <h1 className='text-2xl'>
+        {' '}
+        <span className='text-primary'>Good</span> Morning
+      </h1>
       <div className='flex items-center gap-3'>
         <h2>{profile.display_name}</h2>
         <Avatar>
