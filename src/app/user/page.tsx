@@ -39,7 +39,7 @@ export default async function Home({
 
   return (
     <main>
-      <div className='lg:h-screen p-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-8 lg:grid-rows-8 gap-2 group [&>*]:min-h-[6rem] [&>*]:rounded-lg [&>*]:shadow-lg [&>*]:transition [&>*]:duration-300'>
+      <div className='lg:h-screen lg:p-4 p-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-8 lg:grid-rows-8 gap-2 lg:gap-4 group [&>*]:min-h-[4rem] [&>*]:rounded-lg [&>*]:shadow-lg [&>*]:transition [&>*]:duration-300'>
         <div className='bg-[#121212] font-medium flex flex-col gap-4 px-2 lg:col-span-2 lg:row-span-5'>
           <div className='rounded-t-lg py-1'>
             <h2 className='font-bold text-2xl'>
