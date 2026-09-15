@@ -19,7 +19,7 @@ export default function Welcome() {
             </p>
           </div>
           <div className='lg:max-w-2xl lg:w-full md:w-1/2 w-5/6'>
-            <img className='' alt='hero' src='/sl.png' />
+            <img className='' alt='hero' src='/sl.jpg' />
           </div>
         </div>
       </section>
