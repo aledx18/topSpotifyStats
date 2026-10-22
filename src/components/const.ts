@@ -18,3 +18,5 @@ export const topTracksUrl =
   'https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=8'
 export const recentlyUrl =
   'https://api.spotify.com/v1/me/player/recently-played?limit=10'
+
+export const spotifyLoginUrl = `https://accounts.spotify.com/authorize?client_id=${publicClient}&response_type=code&redirect_uri=${publicUrl}&scope=${scopes}`
