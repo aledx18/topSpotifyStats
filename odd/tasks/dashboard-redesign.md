@@ -18,7 +18,7 @@ Delivery: ask-on-risk, work-unit commits. Test runner: `node --test` (native TS 
 - [x] T3 S1,S2,S4 dashboard UI from shadcn. Route: inline. Commits 343ac2d, 42f220f. Evidence: desktop 1280px and mobile 390px screenshots with fixture data; fixed hidden explicit card, mobile header overflow.
 - [x] T4 S1 share card `/api/card` (next/og, reads the session cookie). Route: inline. Commit 42f220f. Evidence: 401 without/with bad cookie.
 - [x] T5 S3 delete unused components and dependencies. Route: inline. Commits 72ababf, 42f220f. Evidence: Biome 0 warnings, tsc ok per commit, `npm audit --omit=dev` 0.
-- [ ] T6 S7 review. Route: delegated independent verifier (T1 names item 2) + native review per commit.
+- [x] T6 S7 review. Route: delegated independent verifier (T1 names item 2) + native review of auth commits 8baa587 and a33d522..4a86b1d (both approved). PR #2 opened, stacked on #1.
 
 ## Log
 - L1 2026-10-22 user: "añadi componentes de shadcn que quiero que priorices para hacer todo la app ... [Image #1] quiero un diseño muy parecido a la imagen que te acabo de pasar ... todos los componentes de ui que  no uses borrarlos de ahora en mas solo usamos shadcn dime si necesitas instalar algun componente mas de shadcn" + "que esto sea en una nueva pr" + "y luego revisa todo".
