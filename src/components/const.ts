@@ -4,9 +4,9 @@ export const publicClient =
     throw new Error('NEXT_PUBLIC_CLIENT no está definido')
   })()
 export const publicUrl =
-  process.env.NEXT_PUBLIC_URl ||
+  process.env.NEXT_PUBLIC_URL ||
   (() => {
-    throw new Error('NEXT_PUBLIC_URl no está definido')
+    throw new Error('NEXT_PUBLIC_URL no está definido')
   })()
 export const clientSecret = process.env.NEXT_CLIENT_SECRET || ''
 export const scopes =
