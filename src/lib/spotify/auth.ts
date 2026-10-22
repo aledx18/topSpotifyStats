@@ -1,17 +1,25 @@
 import type { NextResponse } from 'next/server'
 import { clientSecret, publicClient, publicUrl } from '@/components/const'
+import {
+  accessMaxAge,
+  type TokenClient,
+  TokenRequestError,
+  type TokenSet
+} from './session'
 
 export const ACCESS_COOKIE = 'sp_access'
 export const REFRESH_COOKIE = 'sp_refresh'
 
 const REFRESH_MAX_AGE = 60 * 60 * 24 * 30
-// Expire the access cookie a minute early so a request never carries a stale token.
-const EXPIRY_MARGIN = 60
+const TOKEN_TIMEOUT_MS = 10_000
 
-interface TokenResponse {
-  access_token: string
-  expires_in: number
-  refresh_token?: string
+function isTokenSet(value: unknown): value is TokenSet {
+  const tokens = value as Partial<TokenSet> | null
+  return (
+    typeof tokens?.access_token === 'string' &&
+    typeof tokens.expires_in === 'number' &&
+    tokens.expires_in > 0
+  )
 }
 
 async function requestToken(params: Record<string, string>) {
@@ -23,28 +31,40 @@ async function requestToken(params: Record<string, string>) {
       client_id: publicClient,
       client_secret: clientSecret
     }),
-    cache: 'no-store'
+    cache: 'no-store',
+    signal: AbortSignal.timeout(TOKEN_TIMEOUT_MS)
   })
 
   if (!response.ok) {
-    throw new Error(`Spotify token request failed with ${response.status}`)
+    // 400/401 mean the grant or client was rejected; retrying cannot help.
+    throw new TokenRequestError(
+      `Spotify token request failed with ${response.status}`,
+      response.status === 400 || response.status === 401
+    )
   }
-  return (await response.json()) as TokenResponse
+
+  const tokens: unknown = await response.json()
+  if (!isTokenSet(tokens)) {
+    throw new TokenRequestError(
+      'Spotify returned an invalid token response',
+      false
+    )
+  }
+  return tokens
 }
 
-export function exchangeCode(code: string) {
-  return requestToken({
-    grant_type: 'authorization_code',
-    code,
-    redirect_uri: publicUrl
-  })
-}
-
-export function refreshTokens(refreshToken: string) {
-  return requestToken({
-    grant_type: 'refresh_token',
-    refresh_token: refreshToken
-  })
+export const spotifyTokenClient: TokenClient = {
+  exchangeCode: code =>
+    requestToken({
+      grant_type: 'authorization_code',
+      code,
+      redirect_uri: publicUrl
+    }),
+  refreshTokens: refreshToken =>
+    requestToken({
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken
+    })
 }
 
 const cookieOptions = {
@@ -54,14 +74,10 @@ const cookieOptions = {
   path: '/'
 } as const
 
-export function setTokenCookies(response: NextResponse, tokens: TokenResponse) {
+export function setTokenCookies(response: NextResponse, tokens: TokenSet) {
   response.cookies.set(ACCESS_COOKIE, tokens.access_token, {
     ...cookieOptions,
-    // Never zero: a cookie that expires on arrival would loop the refresh.
-    maxAge:
-      tokens.expires_in > EXPIRY_MARGIN
-        ? tokens.expires_in - EXPIRY_MARGIN
-        : tokens.expires_in
+    maxAge: accessMaxAge(tokens.expires_in)
   })
   // Spotify may omit the refresh token on refresh; the previous one stays valid.
   if (tokens.refresh_token) {

@@ -1,45 +1,32 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import {
   ACCESS_COOKIE,
-  exchangeCode,
   REFRESH_COOKIE,
-  refreshTokens,
-  setTokenCookies
+  setTokenCookies,
+  spotifyTokenClient
 } from '@/lib/spotify/auth'
+import { resolveSession } from '@/lib/spotify/session'
 
-// The OAuth `code` Spotify appends to /user is single-use, so it is traded
-// for tokens once, kept in httpOnly cookies, and removed from the URL.
+// Keeps the Spotify session in httpOnly cookies; see resolveSession.
 export async function proxy(request: NextRequest) {
-  const url = request.nextUrl.clone()
-  const code = url.searchParams.get('code')
+  const action = await resolveSession(
+    {
+      url: request.nextUrl.clone(),
+      hasAccessToken: request.cookies.has(ACCESS_COOKIE),
+      refreshToken: request.cookies.get(REFRESH_COOKIE)?.value
+    },
+    spotifyTokenClient
+  )
 
-  if (code) {
-    url.searchParams.delete('code')
-    url.searchParams.delete('state')
-    try {
-      const response = NextResponse.redirect(url)
-      setTokenCookies(response, await exchangeCode(code))
-      return response
-    } catch {
-      url.searchParams.set('error', 'auth')
-      return NextResponse.redirect(url)
-    }
+  if (action.kind === 'redirect') {
+    const response = NextResponse.redirect(action.url)
+    if (action.tokens) setTokenCookies(response, action.tokens)
+    return response
   }
 
-  const refreshToken = request.cookies.get(REFRESH_COOKIE)?.value
-  if (!request.cookies.has(ACCESS_COOKIE) && refreshToken) {
-    try {
-      const response = NextResponse.redirect(url)
-      setTokenCookies(response, await refreshTokens(refreshToken))
-      return response
-    } catch {
-      const response = NextResponse.next()
-      response.cookies.delete(REFRESH_COOKIE)
-      return response
-    }
-  }
-
-  return NextResponse.next()
+  const response = NextResponse.next()
+  if (action.clearRefresh) response.cookies.delete(REFRESH_COOKIE)
+  return response
 }
 
 // /api/card reads the same cookie, so it needs the same refresh.
