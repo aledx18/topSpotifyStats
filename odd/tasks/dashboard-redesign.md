@@ -13,14 +13,16 @@ Delivery: ask-on-risk, work-unit commits. Test runner: `node --test` (native TS 
 - S8 (derived, required by S1) Time range selector must work: the OAuth `code` is single-use, so the token is stored in an httpOnly cookie and data is refetched per `?range=`.
 
 ## Tasks
-- T1 S8 auth: proxy exchanges `code` → httpOnly cookies (access + refresh), refresh on expiry, redirect to clean /user. Route: inline. Risk: item 2 (credentials).
-- T2 S1,S5 data + stats: Spotify client with time_range, pure stats module with node:test tests. Route: inline.
-- T3 S1,S2,S4 dashboard UI from shadcn. Route: inline.
-- T4 S1 share card: `/api/card` OG image (next/og) with top 5 artists/tracks/genres. Route: inline.
-- T5 S3 delete unused components and dependencies. Route: inline.
-- T6 S7 review: build, lint, tests, screenshot, independent verifier for T1, native review per commit. Route: delegated verifier.
+- [x] T1 S8 auth: proxy exchanges `code` → httpOnly cookies (access + refresh), refresh on expiry, redirect to clean /user. Route: inline. Risk: item 2 (credentials). Commit 8baa587. Evidence: curl probes (no cookie → login card; bad code → 307 without code, range kept; bad refresh → cookie cleared; bad access → "expired").
+- [x] T2 S1,S5 data + stats. Route: inline. Commit 434abcc. Evidence: RED (module missing) → GREEN 13/13 `npm test`.
+- [x] T3 S1,S2,S4 dashboard UI from shadcn. Route: inline. Commits 343ac2d, 42f220f. Evidence: desktop 1280px and mobile 390px screenshots with fixture data; fixed hidden explicit card, mobile header overflow.
+- [x] T4 S1 share card `/api/card` (next/og, reads the session cookie). Route: inline. Commit 42f220f. Evidence: 401 without/with bad cookie.
+- [x] T5 S3 delete unused components and dependencies. Route: inline. Commits 72ababf, 42f220f. Evidence: Biome 0 warnings, tsc ok per commit, `npm audit --omit=dev` 0.
+- [ ] T6 S7 review. Route: delegated independent verifier (T1 names item 2) + native review per commit.
 
 ## Log
 - L1 2026-10-22 user: "añadi componentes de shadcn que quiero que priorices para hacer todo la app ... [Image #1] quiero un diseño muy parecido a la imagen que te acabo de pasar ... todos los componentes de ui que  no uses borrarlos de ahora en mas solo usamos shadcn dime si necesitas instalar algun componente mas de shadcn" + "que esto sea en una nueva pr" + "y luego revisa todo".
 - L2 Spotify Feb 2026 changelog: artist/track/album `popularity` and artist `followers` removed; `/me/top/{type}` and `/me/player/recently-played` still available; `genres` not listed but developers report it missing.
 - L3 user chose "Reemplazarlos (Recomendado)" for missing-data blocks.
+- L4 2026-10-22 implemented T1–T5 as 5 work-unit commits (72ababf, 8baa587, 434abcc, 343ac2d, 42f220f); each passes tsc in isolation. Toggle-group was installed then dropped in favor of the user's Tabs. Charts verified with animation disabled only for the headless screenshot (headless Chromium does not advance Recharts animation).
+- L5 2026-10-22 independent verifier: S1 pass with blocker B1 (share card got no token refresh after the access cookie expired, downloaded a 401 body as .png); S2–S5, S8 pass; advisories: missing OAuth state (pre-existing at baseline), no refresh on 401 with a live cookie, generic text on ?error=auth, zero maxAge loop on tiny expires_in, empty-data gaps, unused URL constants. Fixed B1 (proxy matcher covers /api/card; recheck: /api/card with only sp_refresh now attempts the refresh and clears the bad cookie), the zero maxAge guard, unused constants and the empty top-artists card.

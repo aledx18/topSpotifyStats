@@ -106,7 +106,9 @@ export function Dashboard({ data, range }: DashboardProps) {
         )}
       </section>
 
-      <TopArtistsCard artists={artists} period={TIME_RANGE_PERIODS[range]} />
+      {artists.length > 0 && (
+        <TopArtistsCard artists={artists} period={TIME_RANGE_PERIODS[range]} />
+      )}
 
       <section className='grid gap-5 md:grid-cols-2 lg:grid-cols-3'>
         <RecentlyPlayedCard recent={recent} />
