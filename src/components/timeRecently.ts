@@ -13,7 +13,7 @@ export function tiempoTranscurrido(fecha: string) {
 
   // Si la diferencia es menor a 60 minutos, mostrar "hace tantos minutos"
   if (diferenciaEnMinutos < 60) {
-    return 'Hace ' + diferenciaEnMinutos + ' minutos'
+    return `Hace ${diferenciaEnMinutos} minutos`
   } else {
     // Calcular la diferencia en horas
     const diferenciaEnHoras = Math.floor(diferenciaEnMinutos / 60)
@@ -23,7 +23,7 @@ export function tiempoTranscurrido(fecha: string) {
       return 'Hace una hora'
     } else {
       // Si la diferencia es mayor a 1 hora, mostrar "hace tantas horas"
-      return diferenciaEnHoras + ' hours ago'
+      return `${diferenciaEnHoras} hours ago`
     }
   }
 }
@@ -53,7 +53,7 @@ export function fechaFormateada() {
   const año = fechaActual.getFullYear()
 
   // Formatear la fecha
-  const fechaFormateada = dia + ' ' + meses[mes] + ' ' + año
+  const fechaFormateada = `${dia} ${meses[mes]} ${año}`
 
   return fechaFormateada
 }

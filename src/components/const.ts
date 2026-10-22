@@ -1,11 +1,11 @@
 export const publicClient =
   process.env.NEXT_PUBLIC_CLIENT ||
-  (function () {
+  (() => {
     throw new Error('NEXT_PUBLIC_CLIENT no está definido')
   })()
 export const publicUrl =
   process.env.NEXT_PUBLIC_URl ||
-  (function () {
+  (() => {
     throw new Error('NEXT_PUBLIC_URl no está definido')
   })()
 export const clientSecret = process.env.NEXT_CLIENT_SECRET || ''

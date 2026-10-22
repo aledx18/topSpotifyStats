@@ -1,11 +1,11 @@
-import { ArtistsI } from '@/app/interface'
+import type { ArtistsI } from '@/app/interface'
 
 type GenreCounts = {
   [genre: string]: number
 }
 
 export function GenreCount(topArtists: ArtistsI) {
-  const allGenres = topArtists.items.flatMap((res) => res.genres)
+  const allGenres = topArtists.items.flatMap(res => res.genres)
 
   const genreCounts: GenreCounts = allGenres.reduce((counts, genre) => {
     counts[genre] = (counts[genre] || 0) + 1

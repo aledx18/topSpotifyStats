@@ -1,7 +1,7 @@
-import { RecentlyTracksI } from '@/app/interfaceRecently'
-import { topTracksUrl, topArtistsUrl, recentlyUrl } from './const'
-import { ArtistsI, UserProfile } from '@/app/interface'
-import { TracksI } from '@/app/interfaceTracks'
+import type { ArtistsI, UserProfile } from '@/app/interface'
+import type { RecentlyTracksI } from '@/app/interfaceRecently'
+import type { TracksI } from '@/app/interfaceTracks'
+import { recentlyUrl, topArtistsUrl, topTracksUrl } from './const'
 
 interface UserProfileResult {
   error?: string
@@ -32,7 +32,7 @@ export async function getUserProfile(
 
     // Verificar que la respuesta sea de tipo 'application/json'
     const contentType = profileResult.headers.get('content-type')
-    if (!contentType || !contentType.includes('application/json')) {
+    if (!contentType?.includes('application/json')) {
       throw new Error(
         `La respuesta no es de tipo JSON. Tipo de contenido: ${contentType}`
       )

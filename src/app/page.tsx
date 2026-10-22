@@ -1,5 +1,5 @@
-import Navbar from '@/components/Header/Navbar'
 import Footer from '@/components/footer'
+import Navbar from '@/components/Header/Navbar'
 /* eslint-disable @next/next/no-img-element */
 
 export default function Welcome() {

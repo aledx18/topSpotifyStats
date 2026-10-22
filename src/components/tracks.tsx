@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { TracksI } from '@/app/interfaceTracks'
+import type { TracksI } from '@/app/interfaceTracks'
 
 interface TracksProps {
   topTracks: TracksI
@@ -8,7 +8,7 @@ interface TracksProps {
 export default function Tracks({ topTracks }: TracksProps) {
   return (
     <div className='px-2 grid grid-cols-1 lg:grid-cols-4 lg:grid-rows-2 gap-4 group *:bg-[#181818] *:min-h-16 *:rounded-lg'>
-      {topTracks.items.map((item) => (
+      {topTracks.items.map(item => (
         <div key={item.id} className='flex items-center shadow-md'>
           <img
             className='rounded-l-lg p-0.5'

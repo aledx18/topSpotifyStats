@@ -1,15 +1,15 @@
+import type { ArtistsI, UserProfile } from '@/app/interface'
 import { getAccesToken } from '@/components/accessToken'
-import { ArtistsI, UserProfile } from '@/app/interface'
 
 import Artists from '@/components/artists'
-import Genres from '@/components/genres'
-import Tracks from '@/components/tracks'
-import RenderProfile from '@/components/renderProfile'
-import RecentlyTracks from '@/components/recentlyTracks'
-import TopGenres from '@/components/topGenres'
-import { TracksI } from '../interfaceTracks'
-import { RecentlyTracksI } from '../interfaceRecently'
 import ErrorFetch from '@/components/error/errorFetch'
+import Genres from '@/components/genres'
+import RecentlyTracks from '@/components/recentlyTracks'
+import RenderProfile from '@/components/renderProfile'
+import TopGenres from '@/components/topGenres'
+import Tracks from '@/components/tracks'
+import type { RecentlyTracksI } from '../interfaceRecently'
+import type { TracksI } from '../interfaceTracks'
 
 export default async function Home({
   searchParams
@@ -20,7 +20,7 @@ export default async function Home({
   const code = typeof codeParam === 'string' ? codeParam : ''
 
   const result = await getAccesToken(code)
-  if (result?.error) {
+  if (!result?.data || result.error) {
     return <ErrorFetch />
   }
 
@@ -34,7 +34,7 @@ export default async function Home({
     topTracks: TracksI
     topArtists: ArtistsI
     recentlyTracks: RecentlyTracksI
-  } = result?.data!
+  } = result.data
 
   return (
     <main>
@@ -54,7 +54,8 @@ export default async function Home({
           style={{
             backgroundImage:
               'linear-gradient(to right, #1e1e1e, #1b1b1b, #181818, #151515, #121212)'
-          }}>
+          }}
+        >
           <div className='rounded-t-lg px-2 py-1'>
             <h2 className='font-bold text-2xl'>
               Top <span className='text-primary'>Tracks</span>
