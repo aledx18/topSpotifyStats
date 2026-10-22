@@ -42,6 +42,7 @@ export async function proxy(request: NextRequest) {
   return NextResponse.next()
 }
 
+// /api/card reads the same cookie, so it needs the same refresh.
 export const config = {
-  matcher: '/user'
+  matcher: ['/user', '/api/card']
 }

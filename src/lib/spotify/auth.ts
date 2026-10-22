@@ -57,7 +57,11 @@ const cookieOptions = {
 export function setTokenCookies(response: NextResponse, tokens: TokenResponse) {
   response.cookies.set(ACCESS_COOKIE, tokens.access_token, {
     ...cookieOptions,
-    maxAge: Math.max(tokens.expires_in - EXPIRY_MARGIN, 0)
+    // Never zero: a cookie that expires on arrival would loop the refresh.
+    maxAge:
+      tokens.expires_in > EXPIRY_MARGIN
+        ? tokens.expires_in - EXPIRY_MARGIN
+        : tokens.expires_in
   })
   // Spotify may omit the refresh token on refresh; the previous one stays valid.
   if (tokens.refresh_token) {
