@@ -1,5 +1,5 @@
-import { UserProfile } from '../app/interface'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import type { UserProfile } from '../app/interface'
 
 interface profileProps {
   profile: UserProfile

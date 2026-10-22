@@ -1,5 +1,5 @@
+import type { ArtistsI } from '@/app/interface'
 import { Badge } from '@/components/ui/badge'
-import { ArtistsI } from '@/app/interface'
 import { GenreCount } from './genreCounts'
 
 interface ArtistsProps {
@@ -11,8 +11,8 @@ export default function Genres({ topArtists }: ArtistsProps) {
 
   return (
     <div className='grid grid-cols-2 gap-2'>
-      {genres.map((res, i) => (
-        <Badge variant='personal' key={i}>
+      {genres.map(res => (
+        <Badge variant='personal' key={res}>
           {res}
         </Badge>
       ))}
