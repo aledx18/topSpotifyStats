@@ -1,5 +1,5 @@
 import { LogIn } from 'lucide-react'
-import { publicClient, publicUrl, scopes } from '@/components/const'
+import { spotifyLoginUrl } from '@/components/const'
 import { Button } from '@/components/ui/button'
 export default function Navbar() {
   return (
@@ -22,9 +22,7 @@ export default function Navbar() {
           <span className='ml-2 text-md lg:text-xl'>TopSpotify</span>
         </div>
         <Button asChild variant='personal' size='pers'>
-          <a
-            href={`https://accounts.spotify.com/authorize?client_id=${publicClient}&response_type=code&redirect_uri=${publicUrl}&scope=${scopes}`}
-          >
+          <a href={spotifyLoginUrl}>
             <LogIn className='mr-2' />
             Log In
           </a>
