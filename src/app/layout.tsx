@@ -29,7 +29,8 @@ const myFont = localFont({
       weight: '700',
       style: 'bold'
     }
-  ]
+  ],
+  variable: '--font-sans'
 })
 
 export default function RootLayout({
@@ -38,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang='en'>
+    <html lang='en' className={`dark ${myFont.variable}`}>
       <body className={myFont.className}>{children}</body>
     </html>
   )

@@ -1,6 +1,7 @@
+import Image from 'next/image'
 import Footer from '@/components/footer'
 import Navbar from '@/components/Header/Navbar'
-/* eslint-disable @next/next/no-img-element */
+import hero from '../../public/sl.webp'
 
 export default function Welcome() {
   return (
@@ -19,7 +20,13 @@ export default function Welcome() {
             </p>
           </div>
           <div className='lg:max-w-2xl lg:w-full md:w-1/2 w-5/6'>
-            <img className='' alt='hero' src='/sl.jpg' />
+            <Image
+              src={hero}
+              alt='hero'
+              priority
+              placeholder='blur'
+              sizes='(min-width: 1024px) 672px, (min-width: 768px) 50vw, 83vw'
+            />
           </div>
         </div>
       </section>
