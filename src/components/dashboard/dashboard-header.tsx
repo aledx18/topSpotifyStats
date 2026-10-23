@@ -1,12 +1,17 @@
 'use client'
 
-import { ChartNoAxesColumn } from 'lucide-react'
+import { ChartNoAxesColumn, LoaderCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState, useTransition } from 'react'
+import { useEffect, useOptimistic, useState, useTransition } from 'react'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { TIME_RANGE_LABELS, TIME_RANGES } from '@/lib/spotify/ranges'
 import type { SpotifyImage, TimeRange } from '@/lib/spotify/types'
 import { Cover } from './cover'
+
+// Next only exposes the prefetch kind enum from an internal path; its
+// runtime value for a full prefetch is the string 'full'.
+type PrefetchOptions = Parameters<ReturnType<typeof useRouter>['prefetch']>[1]
+const FULL_PREFETCH = { kind: 'full' } as PrefetchOptions
 
 function greetingFor(hour: number) {
   if (hour >= 6 && hour < 12) return 'Buenos días'
@@ -23,9 +28,29 @@ interface DashboardHeaderProps {
 export function DashboardHeader({ name, images, range }: DashboardHeaderProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
+  // Select the clicked tab right away instead of waiting for the server.
+  const [selected, setSelected] = useOptimistic(range)
   // Greeting and date depend on the viewer's clock, so they render after mount.
   const [now, setNow] = useState<Date | null>(null)
   useEffect(() => setNow(new Date()), [])
+
+  // Each range is a fresh server render that waits on Spotify, so warm the
+  // other ranges in the background once the browser is idle.
+  useEffect(() => {
+    const prefetch = () => {
+      for (const value of TIME_RANGES) {
+        if (value !== range) {
+          router.prefetch(`/user?range=${value}`, FULL_PREFETCH)
+        }
+      }
+    }
+    if (typeof requestIdleCallback === 'undefined') {
+      const timeout = setTimeout(prefetch, 1000)
+      return () => clearTimeout(timeout)
+    }
+    const id = requestIdleCallback(prefetch)
+    return () => cancelIdleCallback(id)
+  }, [range, router])
 
   const firstName = name.split(' ')[0]
 
@@ -54,9 +79,12 @@ export function DashboardHeader({ name, images, range }: DashboardHeaderProps) {
 
       <div className='flex flex-wrap items-center gap-3'>
         <Tabs
-          value={range}
+          value={selected}
           onValueChange={value =>
-            startTransition(() => router.push(`/user?range=${value}`))
+            startTransition(() => {
+              setSelected(value as TimeRange)
+              router.push(`/user?range=${value}`)
+            })
           }
         >
           <TabsList
@@ -69,6 +97,9 @@ export function DashboardHeader({ name, images, range }: DashboardHeaderProps) {
                 value={value}
                 className='rounded-full px-4 data-active:bg-primary! data-active:text-primary-foreground!'
               >
+                {isPending && value === selected && (
+                  <LoaderCircle aria-hidden className='animate-spin' />
+                )}
                 {TIME_RANGE_LABELS[value]}
               </TabsTrigger>
             ))}

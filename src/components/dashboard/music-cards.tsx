@@ -14,7 +14,7 @@ import { type GenreShare, relativeTime } from '@/lib/stats'
 import { Cover } from './cover'
 
 const RANKED_GENRES = 6
-const EXTRA_GENRES = 12
+const EXTRA_GENRES = 11
 
 export function GenresCard({ genres }: { genres: GenreShare[] }) {
   const ranked = genres.slice(0, RANKED_GENRES)
